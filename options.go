@@ -51,10 +51,11 @@ type Options struct {
 	SkipAuthRegex      []string `flag:"skip-auth-regex" cfg:"skip_auth_regex"`
 	ReturnAuthenticatedEmail bool     `flag:"return-authenticated-email" cfg:"return_authenticated_email"`
 	PassBasicAuth      bool     `flag:"pass-basic-auth" cfg:"pass_basic_auth"`
+	SkipProviderButton bool     `flag:"skip-provider-button" cfg:"skip_provider_button"`
+	PassUserHeaders    bool     `flag:"pass-user-headers" cfg:"pass_user_headers"`
 	BasicAuthPassword  string   `flag:"basic-auth-password" cfg:"basic_auth_password"`
 	PassAccessToken    bool     `flag:"pass-access-token" cfg:"pass_access_token"`
 	PassHostHeader     bool     `flag:"pass-host-header" cfg:"pass_host_header"`
-	SkipProviderButton bool     `flag:"skip-provider-button" cfg:"skip_provider_button"`
 
 	// These options allow for other providers besides Google, with
 	// potential overrides.
@@ -97,6 +98,7 @@ func NewOptions() *Options {
 		CookieRefresh:       time.Duration(0),
 		ReturnAuthenticatedEmail: false,
 		PassBasicAuth:       true,
+		PassUserHeaders:     true,
 		PassAccessToken:     false,
 		PassHostHeader:      true,
 		SkipProviderButton:  false,

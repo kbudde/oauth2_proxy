@@ -61,6 +61,7 @@ type OAuthProxy struct {
 	PassBasicAuth       bool
 	SkipProviderButton  bool
 	ReturnAuthenticatedEmail bool
+	PassUserHeaders     bool
 	BasicAuthPassword   string
 	PassAccessToken     bool
 	CookieCipher        *cookie.Cipher
@@ -194,6 +195,7 @@ func NewOAuthProxy(opts *Options, validator func(string) bool) *OAuthProxy {
 		redirectURL:        redirectURL,
 		skipAuthRegex:      opts.SkipAuthRegex,
 		compiledRegex:      opts.CompiledRegex,
+		PassUserHeaders:    opts.PassUserHeaders,
 		PassBasicAuth:      opts.PassBasicAuth,
 		ReturnAuthenticatedEmail: opts.ReturnAuthenticatedEmail,
 		BasicAuthPassword:  opts.BasicAuthPassword,
@@ -606,6 +608,12 @@ func (p *OAuthProxy) Authenticate(rw http.ResponseWriter, req *http.Request) int
 	}
 	if p.ReturnAuthenticatedEmail {
 		rw.Header().Set("X-Authenticated-Email", session.Email)
+	}
+	if p.PassUserHeaders {
+		req.Header["X-Forwarded-User"] = []string{session.User}
+		if session.Email != "" {
+			req.Header["X-Forwarded-Email"] = []string{session.Email}
+		}
 	}
 	if p.PassAccessToken && session.AccessToken != "" {
 		req.Header["X-Forwarded-Access-Token"] = []string{session.AccessToken}
