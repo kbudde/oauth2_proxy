@@ -8,11 +8,11 @@ dependencies:
 test:
   post:
     - |
-    export GO_VERSION=$(go version|awk '{print $3}') ;
-    export GO_ARCH=$(go version|awk '{print $NF}'|tr / -) ;
-    export TARGET_DIR=oauth2_proxy-circle_build_${CIRCLE_BUILD_NUM}.${GO_ARCH}.${GO_VERSION} ;
-    mkdir ${CIRCLE_ARTIFACTS}/${TARGET_DIR} &&
-      cp -v oauth2_proxy ${CIRCLE_ARTIFACTS}/${TARGET_DIR} &&
-      cd ${CIRCLE_ARTIFACTS} &&
-      find . -ls &&
-      tar zcvf ${TARGET_DIR}.tar.gz ${TARGET_DIR}
+      export GO_VERSION=$(go version|awk '{print $3}') ;
+      export GO_ARCH=$(go version|awk '{print $NF}'|tr / -) ;
+      export TARGET_DIR=oauth2_proxy-circle_build_${CIRCLE_BUILD_NUM}.${GO_ARCH}.${GO_VERSION} ;
+      mkdir ${CIRCLE_ARTIFACTS}/${TARGET_DIR} &&
+        cp -v oauth2_proxy ${CIRCLE_ARTIFACTS}/${TARGET_DIR} &&
+        cd ${CIRCLE_ARTIFACTS} &&
+        find . -ls &&
+        tar zcvf ${TARGET_DIR}.tar.gz ${TARGET_DIR}
