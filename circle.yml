@@ -1,6 +1,11 @@
 dependencies:
   post:
-    - curl -s https://raw.githubusercontent.com/pote/gpm/v1.3.2/bin/gpm > gpm
-    - chmod +x gpm
-    - ./gpm install
-    - ./test.sh
+    - find . -ls || true
+    - ls -lR
+    - ls -l oauth2_proxy || true
+    - ldd oauth2_proxy || true
+
+test:
+  post:
+    - mkdir $CIRCLE_ARTIFACTS/go_binaries
+    - mv oauth2_proxy $CIRCLE_ARTIFACTS/go_binaries
