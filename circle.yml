@@ -7,5 +7,10 @@ dependencies:
 
 test:
   post:
-    - mkdir $CIRCLE_ARTIFACTS/go_binaries
-    - mv oauth2_proxy $CIRCLE_ARTIFACTS/go_binaries
+    - export GO_VERSION=$(go version|awk '{print $3}')        # go1.6.3
+    - export GO_ARCH=$(go version|awk '{print $NF}'|tr / -)   # linux-amd64
+    - export TARGET_DIR=oauth2_proxy-circle_build_${CIRCLE_BUILD_NUM}.${GO_ARCH}.${GO_VERSION}
+    - mkdir ${CIRCLE_ARTIFACTS}/${TARGET_DIR}
+    - cp -v oauth2_proxy ${CIRCLE_ARTIFACTS}/${TARGET_DIR}
+    - cd ${CIRCLE_ARTIFACTS}
+    - tar zcvf ${TARGET_DIR}.tar.gz ${TARGET_DIR}
