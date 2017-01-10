@@ -21,6 +21,7 @@ type Options struct {
 	HttpAddress  string `flag:"http-address" cfg:"http_address"`
 	HttpsAddress string `flag:"https-address" cfg:"https_address"`
 	RedirectURL  string `flag:"redirect-url" cfg:"redirect_url"`
+	DiscoveryURL string `flag:"oidc-discovery-url" cfg:"oidc_discovery_url"`
 	ClientID     string `flag:"client-id" cfg:"client_id" env:"OAUTH2_PROXY_CLIENT_ID"`
 	ClientSecret string `flag:"client-secret" cfg:"client_secret" env:"OAUTH2_PROXY_CLIENT_SECRET"`
 	TLSCertFile  string `flag:"tls-cert" cfg:"tls_cert_file"`
@@ -51,10 +52,11 @@ type Options struct {
 	Upstreams          []string `flag:"upstream" cfg:"upstreams"`
 	SkipAuthRegex      []string `flag:"skip-auth-regex" cfg:"skip_auth_regex"`
 	PassBasicAuth      bool     `flag:"pass-basic-auth" cfg:"pass_basic_auth"`
+	SkipProviderButton bool     `flag:"skip-provider-button" cfg:"skip_provider_button"`
+	PassUserHeaders    bool     `flag:"pass-user-headers" cfg:"pass_user_headers"`
 	BasicAuthPassword  string   `flag:"basic-auth-password" cfg:"basic_auth_password"`
 	PassAccessToken    bool     `flag:"pass-access-token" cfg:"pass_access_token"`
 	PassHostHeader     bool     `flag:"pass-host-header" cfg:"pass_host_header"`
-	SkipProviderButton bool     `flag:"skip-provider-button" cfg:"skip_provider_button"`
 
 	// These options allow for other providers besides Google, with
 	// potential overrides.
@@ -96,6 +98,7 @@ func NewOptions() *Options {
 		CookieExpire:        time.Duration(168) * time.Hour,
 		CookieRefresh:       time.Duration(0),
 		PassBasicAuth:       true,
+		PassUserHeaders:     true,
 		PassAccessToken:     false,
 		PassHostHeader:      true,
 		SkipProviderButton:  false,
@@ -218,6 +221,7 @@ func parseProviderInfo(o *Options, msgs []string) []string {
 		ClientSecret:   o.ClientSecret,
 		ApprovalPrompt: o.ApprovalPrompt,
 	}
+	p.DiscoveryURL, msgs = parseURL(o.DiscoveryURL, "discovery", msgs)
 	p.LoginURL, msgs = parseURL(o.LoginURL, "login", msgs)
 	p.RedeemURL, msgs = parseURL(o.RedeemURL, "redeem", msgs)
 	p.ProfileURL, msgs = parseURL(o.ProfileURL, "profile", msgs)
