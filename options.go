@@ -51,6 +51,7 @@ type Options struct {
 
 	Upstreams          []string `flag:"upstream" cfg:"upstreams"`
 	SkipAuthRegex      []string `flag:"skip-auth-regex" cfg:"skip_auth_regex"`
+	ReturnAuthenticatedEmail bool     `flag:"return-authenticated-email" cfg:"return_authenticated_email"`
 	PassBasicAuth      bool     `flag:"pass-basic-auth" cfg:"pass_basic_auth"`
 	SkipProviderButton bool     `flag:"skip-provider-button" cfg:"skip_provider_button"`
 	PassUserHeaders    bool     `flag:"pass-user-headers" cfg:"pass_user_headers"`
@@ -97,6 +98,7 @@ func NewOptions() *Options {
 		CookieHttpOnly:      true,
 		CookieExpire:        time.Duration(168) * time.Hour,
 		CookieRefresh:       time.Duration(0),
+		ReturnAuthenticatedEmail: false,
 		PassBasicAuth:       true,
 		PassUserHeaders:     true,
 		PassAccessToken:     false,
